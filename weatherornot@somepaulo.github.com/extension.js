@@ -1,6 +1,6 @@
 /*
- * Weather O'Clock extension for GNOME Shell 42+
- * Copyright 2022 Cleo Menezes Jr., 2020 Jason Gray (JasonLG1979)
+ * Weather or Not extension for GNOME Shell 42+
+ * Copyright 2023 Paulo Fino, 2022 Cleo Menezes Jr., 2020 Jason Gray (JasonLG1979)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@ const { Clutter, GLib, GObject, St } = imports.gi;
 const [major, minor] = imports.misc.config.PACKAGE_VERSION.split(".").map((s) =>
   Number(s)
 );
+const Main = imports.ui.main;
+const PanelMenu = imports.ui.panelMenu;
 
 let panelWeather = null;
 
@@ -35,17 +37,16 @@ function enable() {
         ? statusArea.aggregateMenu._network
         : statusArea.quickSettings._network;
     let networkIcon = network ? network._primaryIndicator : null;
-    panelWeather = new PanelWeather(weather, networkIcon);
-    dateMenu
-      .get_first_child()
-      .insert_child_below(panelWeather, dateMenu._clockDisplay);
+    panelWeatherButton = new PanelWeather(weather, networkIcon);
+    Main.panel.addToStatusArea('panelWeatherButton', panelWeatherButton);
   }
 }
 
 function disable() {
   if (panelWeather) {
-    panelWeather.destroy();
-    panelWeather = null;
+    panelWeatherButton.stop();
+    panelWeatherButton.destroy();
+    panelWeatherButton = null;
   }
 }
 
@@ -53,7 +54,7 @@ const PanelWeather = GObject.registerClass(
   {
     GTypeName: "PanelWeather",
   },
-  class PanelWeather extends St.BoxLayout {
+  class PanelWeather extends PanelMenu.Button {
     _init(weather, networkIcon) {
       super._init({
         y_align: Clutter.ActorAlign.CENTER,
@@ -62,7 +63,7 @@ const PanelWeather = GObject.registerClass(
 
       this._weather = weather;
       this._networkIcon = networkIcon;
-
+      
       this._signals = [];
 
       this._icon = new St.Icon({
@@ -70,14 +71,24 @@ const PanelWeather = GObject.registerClass(
         style_class: "system-status-icon",
       });
 
-      this.add_child(this._icon);
-
       this._label = new St.Label({
         y_align: Clutter.ActorAlign.CENTER,
       });
 
-      this.add_child(this._label);
+      let topBox = new St.BoxLayout({
+        style_class: 'panel-status-menu-box'
+      });
+      topBox.add_child(this._icon);
+      topBox.add_child(this._label);
+      this.add_child(topBox);
 
+      this.get_parent().remove_actor(this);
+      let children = null;
+      children = Main.panel._centerBox.get_children();
+      Main.panel._centerBox.insert_child_at_index(this, 1);
+      
+      this.connect("button-press-event", () => GLib.spawn_command_line_async("gapplication launch org.gnome.Weather"));
+      
       this._pushSignal(
         this._weather,
         "changed",
@@ -159,3 +170,4 @@ const PanelWeather = GObject.registerClass(
     }
   }
 );
+
