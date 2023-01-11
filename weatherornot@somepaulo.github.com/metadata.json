@@ -1,5 +1,5 @@
 {
-  "description": "Display the current weather beside the clock and click to open GNOME Weather, which is, obviously, required for this extension to function properly.",
+  "description": "Display the current weather beside the clock and click to open GNOME Weather, which is required for this extension to function properly. This is a fork of the Weather O'Clock extension.",
   "name": "Weather or Not",
   "original-author": "somepaulo@duck.com",
   "shell-version": [
@@ -8,5 +8,5 @@
   ],
   "url": "https://github.com/somepaulo/gnome-shell-extension-weather-or-not",
   "uuid": "weatherornot@somepaulo.github.com",
-  "version": 1
+  "version": 2
 }

@@ -28,31 +28,25 @@ const PanelMenu = imports.ui.panelMenu;
 let panelWeather = null;
 
 function enable() {
-  if (!panelWeather) {
-    let statusArea = imports.ui.main.panel.statusArea;
-    let dateMenu = statusArea.dateMenu;
-    let weather = dateMenu._weatherItem._weatherClient;
-    let network =
-      major < 43
-        ? statusArea.aggregateMenu._network
-        : statusArea.quickSettings._network;
-    let networkIcon = network ? network._primaryIndicator : null;
-    panelWeatherButton = new PanelWeather(weather, networkIcon);
-    Main.panel.addToStatusArea('panelWeatherButton', panelWeatherButton);
-    panelWeatherButton.get_parent().remove_actor(panelWeatherButton);
-    let children = null;
-    children = Main.panel._centerBox.get_children();
-    Main.panel._centerBox.insert_child_at_index(panelWeatherButton, 1);
-      
-  }
+  let statusArea = imports.ui.main.panel.statusArea;
+  let dateMenu = statusArea.dateMenu;
+  let weather = dateMenu._weatherItem._weatherClient;
+  let network =
+    major < 43
+      ? statusArea.aggregateMenu._network
+      : statusArea.quickSettings._network;
+  let networkIcon = network ? network._primaryIndicator : null;
+  panelWeatherButton = new PanelWeather(weather, networkIcon);
+  Main.panel.addToStatusArea('panelWeatherButton', panelWeatherButton);
+  panelWeatherButton.get_parent().remove_actor(panelWeatherButton);
+  let children = null;
+  children = Main.panel._centerBox.get_children();
+  Main.panel._centerBox.insert_child_at_index(panelWeatherButton, 1);
 }
 
 function disable() {
-  if (panelWeather) {
-    panelWeatherButton.stop();
-    panelWeatherButton.destroy();
-    panelWeatherButton = null;
-  }
+  panelWeatherButton.destroy();
+  panelWeatherButton = null;
 }
 
 const PanelWeather = GObject.registerClass(
