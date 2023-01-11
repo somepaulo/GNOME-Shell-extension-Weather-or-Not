@@ -25,35 +25,11 @@ const [major, minor] = imports.misc.config.PACKAGE_VERSION.split(".").map((s) =>
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 
-let panelWeather = null;
-
-function enable() {
-  let statusArea = imports.ui.main.panel.statusArea;
-  let dateMenu = statusArea.dateMenu;
-  let weather = dateMenu._weatherItem._weatherClient;
-  let network =
-    major < 43
-      ? statusArea.aggregateMenu._network
-      : statusArea.quickSettings._network;
-  let networkIcon = network ? network._primaryIndicator : null;
-  panelWeatherButton = new PanelWeather(weather, networkIcon);
-  Main.panel.addToStatusArea('panelWeatherButton', panelWeatherButton);
-  panelWeatherButton.get_parent().remove_actor(panelWeatherButton);
-  let children = null;
-  children = Main.panel._centerBox.get_children();
-  Main.panel._centerBox.insert_child_at_index(panelWeatherButton, 1);
-}
-
-function disable() {
-  panelWeatherButton.destroy();
-  panelWeatherButton = null;
-}
-
-const PanelWeather = GObject.registerClass(
+const WeatherOrNot_Indicator = GObject.registerClass(
   {
-    GTypeName: "PanelWeather",
+    GTypeName: "WeatherOrNot",
   },
-  class PanelWeather extends PanelMenu.Button {
+  class WeatherOrNot extends PanelMenu.Button {
     _init(weather, networkIcon) {
       super._init({
         y_align: Clutter.ActorAlign.CENTER,
@@ -73,14 +49,14 @@ const PanelWeather = GObject.registerClass(
       this._label = new St.Label({
         y_align: Clutter.ActorAlign.CENTER,
       });
-
+      
       let topBox = new St.BoxLayout({
         style_class: 'panel-status-menu-box'
       });
       topBox.add_child(this._icon);
       topBox.add_child(this._label);
       this.add_child(topBox);
-
+      
       this.connect("button-press-event", () => GLib.spawn_command_line_async("gapplication launch org.gnome.Weather"));
       
       this._pushSignal(
@@ -121,8 +97,7 @@ const PanelWeather = GObject.registerClass(
 
     _onWeatherInfoUpdate(weather) {
       this._icon.icon_name = weather.info.get_symbolic_icon_name();
-      // "--" is not a valid temp...
-      this._label.text = weather.info.get_temp_summary().replace("--", "");
+      this._label.text = weather.info.get_temp_summary().replace("--", ""); // "--" is not a valid temp...
       this.visible = this._icon.icon_name && this._label.text;
     }
 
@@ -164,4 +139,24 @@ const PanelWeather = GObject.registerClass(
     }
   }
 );
+
+let _indicator = null;
+
+function enable() {
+  let statusArea = imports.ui.main.panel.statusArea;
+  let dateMenu = statusArea.dateMenu;
+  let weather = dateMenu._weatherItem._weatherClient;
+  let network =
+    major < 43
+      ? statusArea.aggregateMenu._network
+      : statusArea.quickSettings._network;
+  let networkIcon = network ? network._primaryIndicator : null;
+  _indicator = new WeatherOrNot_Indicator(weather, networkIcon);
+  Main.panel._addToPanelBox('WeatherOrNot', _indicator, 1, Main.panel._centerBox);
+}
+
+function disable() {
+  _indicator.destroy();
+  _indicator = null;
+}
 
