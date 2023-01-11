@@ -6,6 +6,7 @@ A simple extension for GNOME Shell 42+ that adds an icon showing the current wea
 
 **NB:** GNOME Weather is required!
 
+![won_sc](https://user-images.githubusercontent.com/15643750/211716863-fbf9d910-c325-469e-a8c8-13a50bf21f89.png)
 
 ## Installation
 1. Copy the `weatherornot@somepaulo.github.com` folder to either `/usr/share/gnome-shell/extensions/` or `~/.local/share/gnome-shell/extensions/`
