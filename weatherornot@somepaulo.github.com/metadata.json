@@ -1,5 +1,5 @@
 {
-  "description": "Display the current weather beside the clock and open GNOME Weather on click. GNOME Weather is, obviously, required for this extension to function.",
+  "description": "Display the current weather beside the clock and click to open GNOME Weather, which is, obviously, required for this extension to function properly.",
   "name": "Weather or Not",
   "original-author": "somepaulo@duck.com",
   "shell-version": [

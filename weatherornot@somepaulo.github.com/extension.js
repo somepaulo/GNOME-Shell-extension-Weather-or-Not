@@ -1,6 +1,6 @@
 /*
  * Weather or Not extension for GNOME Shell 42+
- * Copyright 2023 Paulo Fino, 2022 Cleo Menezes Jr., 2020 Jason Gray (JasonLG1979)
+ * Copyright 2023 Paulo Fino (somepaulo), 2022 Cleo Menezes Jr. (CleoMenezesJr), 2020 Jason Gray (JasonLG1979)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,11 @@ function enable() {
     let networkIcon = network ? network._primaryIndicator : null;
     panelWeatherButton = new PanelWeather(weather, networkIcon);
     Main.panel.addToStatusArea('panelWeatherButton', panelWeatherButton);
+    panelWeatherButton.get_parent().remove_actor(panelWeatherButton);
+    let children = null;
+    children = Main.panel._centerBox.get_children();
+    Main.panel._centerBox.insert_child_at_index(panelWeatherButton, 1);
+      
   }
 }
 
@@ -82,11 +87,6 @@ const PanelWeather = GObject.registerClass(
       topBox.add_child(this._label);
       this.add_child(topBox);
 
-      this.get_parent().remove_actor(this);
-      let children = null;
-      children = Main.panel._centerBox.get_children();
-      Main.panel._centerBox.insert_child_at_index(this, 1);
-      
       this.connect("button-press-event", () => GLib.spawn_command_line_async("gapplication launch org.gnome.Weather"));
       
       this._pushSignal(
