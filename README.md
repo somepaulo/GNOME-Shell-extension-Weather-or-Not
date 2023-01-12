@@ -18,4 +18,4 @@ A simple extension for GNOME Shell 42+ that adds an icon showing the current wea
 2. Download the extension .zip archive from this repo and unzip it
 3. Copy the `weatherornot@somepaulo.github.io` folder to `~/.local/share/gnome-shell/extensions/`
 4. Log out and log back in (on Wayland) or use `Alt+F2`,`r`,`Enter` (on X11)
-5. Enable the extension in either `Extensions`, `Extension Manager` or [GNOME Shell Extensions](https://extensions.gnome.org/)
+5. Enable the extension in either `Extensions`, `Extension Manager` or [GNOME Shell Extensions](https://extensions.gnome.org/local/)
