@@ -8,7 +8,7 @@ A simple extension for GNOME Shell 42+ that adds an icon showing the current wea
 
 **NB:** GNOME Weather is required!
 
-![screenshot](https://user-images.githubusercontent.com/15643750/212083587-bdc6dc7e-86bf-4d9e-815a-ab47c9b90ce3.png)
+![screenshot](https://user-images.githubusercontent.com/15643750/212085917-9e3288fb-2219-449d-8a3e-ae8cdfed0efe.png)
 
 ## Installation
 [<img src="https://user-images.githubusercontent.com/15643750/212080370-77899e64-bae8-43f1-b67a-fc946785c4b3.png" height="100">](https://extensions.gnome.org/extension/5660/weather-or-not/)
