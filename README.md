@@ -8,9 +8,14 @@ A simple extension for GNOME Shell 42+ that adds an icon showing the current wea
 
 **NB:** GNOME Weather is required!
 
-![won_sc](https://user-images.githubusercontent.com/15643750/211716863-fbf9d910-c325-469e-a8c8-13a50bf21f89.png)
+![screenshot](https://user-images.githubusercontent.com/15643750/212083587-bdc6dc7e-86bf-4d9e-815a-ab47c9b90ce3.png)
 
 ## Installation
-1. Copy the `weatherornot@somepaulo.github.com` folder to either `/usr/share/gnome-shell/extensions/` or `~/.local/share/gnome-shell/extensions/`
-2. Enable the extension in either `Extensions` or `Extension Manager`
-3. Logout and log back in
+[<img src="https://user-images.githubusercontent.com/15643750/212080370-77899e64-bae8-43f1-b67a-fc946785c4b3.png" height="100">](https://extensions.gnome.org/extension/5660/weather-or-not/)
+
+### Manual installation
+1. Make sure you have GNOME Weather installed
+2. Download the extension .zip archive from this repo and unzip it
+3. Copy the `weatherornot@somepaulo.github.io` folder to `~/.local/share/gnome-shell/extensions/`
+4. Log out and log back in (on Wayland) or use `Alt+F2`,`r`,`Enter` (on X11)
+5. Enable the extension in either `Extensions`, `Extension Manager` or [GNOME Shell Extensions](https://extensions.gnome.org/)
