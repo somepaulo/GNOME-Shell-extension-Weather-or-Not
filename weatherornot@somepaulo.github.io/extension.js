@@ -57,8 +57,6 @@ const WeatherOrNot_Indicator = GObject.registerClass(
       topBox.add_child(this._label);
       this.add_child(topBox);
       
-      this.connect("button-press-event", () => GLib.spawn_command_line_async("gapplication launch org.gnome.Weather"));
-      
       this._pushSignal(
         this._weather,
         "changed",
@@ -141,6 +139,7 @@ const WeatherOrNot_Indicator = GObject.registerClass(
 );
 
 let _indicator = null;
+let _spacer = null;
 
 function enable() {
   let statusArea = imports.ui.main.panel.statusArea;
@@ -152,11 +151,18 @@ function enable() {
       : statusArea.quickSettings._network;
   let networkIcon = network ? network._primaryIndicator : null;
   _indicator = new WeatherOrNot_Indicator(weather, networkIcon);
-  Main.panel._addToPanelBox('WeatherOrNot', _indicator, 1, Main.panel._centerBox);
+  _indicator.connect("button-press-event", () => GLib.spawn_command_line_async("gapplication launch org.gnome.Weather"));
+  _spacer = new WeatherOrNot_Indicator(weather, networkIcon);
+  _spacer.add_style_class_name('spacer-pill');
+  _spacer.reactive = false;
+  Main.panel._addToPanelBox('WeatherOrNot', _indicator, 2, Main.panel._centerBox);
+  Main.panel._addToPanelBox('Spacer', _spacer, 0, Main.panel._centerBox);
 }
 
 function disable() {
   _indicator.destroy();
   _indicator = null;
+  _spacer.destroy();
+  _spacer = null;
 }
 
