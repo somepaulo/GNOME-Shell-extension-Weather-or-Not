@@ -1,4 +1,8 @@
-.spacer-pill * {
-  color: transparent;
+.weatherornot .system-status-icon {
+  max-height: 16px;
+}
+
+.weatherornot-spacer * {
+  color: transparent !important;
 }
 

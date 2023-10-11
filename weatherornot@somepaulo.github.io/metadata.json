@@ -4,11 +4,9 @@
   "name": "Weather or Not",
   "original-author": "somepaulo@duck.com",
   "shell-version": [
-    "42",
-    "43",
-    "44"
+    "45"
   ],
   "url": "https://github.com/somepaulo/gnome-shell-extension-weather-or-not",
   "uuid": "weatherornot@somepaulo.github.io",
-  "version": 3
+  "version": 4
 }

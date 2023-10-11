@@ -1,5 +1,5 @@
 /*
- * Weather or Not extension for GNOME Shell 42+
+ * Weather or Not extension for GNOME Shell 45+
  * Copyright 2023 Paulo Fino (somepaulo), 2022 Cleo Menezes Jr. (CleoMenezesJr), 2020 Jason Gray (JasonLG1979)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,18 +18,59 @@
  * If this extension breaks your desktop you get to keep all of the pieces...
  */
 
-const { Clutter, GLib, GObject, St } = imports.gi;
-const [major, minor] = imports.misc.config.PACKAGE_VERSION.split(".").map((s) =>
-  Number(s)
-);
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
+import Clutter from "gi://Clutter";
+import GLib from "gi://GLib";
+import GObject from "gi://GObject";
+import St from "gi://St";
+import * as Weather from "resource:///org/gnome/shell/misc/weather.js";
+import * as Main from "resource:///org/gnome/shell/ui/main.js";
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
-const WeatherOrNot_Indicator = GObject.registerClass(
+let _spacer = null;
+let _indicator = null;
+let weatherPill = null;
+let topBox, statusArea, dateMenu, weather, network, networkIcon;
+
+export default class weatherOrNot {
+  enable() {
+    if (!weatherPill) {
+      statusArea = Main.panel.statusArea;
+      dateMenu = statusArea.dateMenu;
+      weather = new Weather.WeatherClient();
+      network = Main.panel._network;
+      networkIcon = network ? network._primaryIndicator : null;
+      
+      _spacer = new WeatherPill(weather, networkIcon);
+      _spacer.add_style_class_name('weatherornot-spacer');
+      _spacer.reactive = false;
+      _indicator = new WeatherPill(weather, networkIcon);
+      _indicator.add_style_class_name('weatherornot');
+      _indicator.connect("button-press-event", () => GLib.spawn_command_line_async("gapplication launch org.gnome.Weather"));
+      
+      Main.panel._addToPanelBox('Spacer', _spacer, 0, Main.panel._centerBox);
+      Main.panel._addToPanelBox('WeatherOrNot', _indicator, 999999999, Main.panel._centerBox);
+    }
+  }
+
+  disable() {
+    topBox = null;
+    if (_spacer) {
+      _spacer.destroy();
+      _spacer = null;
+    }
+    if (_indicator) {
+      _indicator.destroy();
+      _indicator = null;
+    }
+    weather = null;
+  }
+}
+
+const WeatherPill = GObject.registerClass(
   {
-    GTypeName: "WeatherOrNot",
+    GTypeName: "WeatherPill",
   },
-  class WeatherOrNot extends PanelMenu.Button {
+  class WeatherPill extends PanelMenu.Button {
     _init(weather, networkIcon) {
       super._init({
         y_align: Clutter.ActorAlign.CENTER,
@@ -38,30 +79,32 @@ const WeatherOrNot_Indicator = GObject.registerClass(
 
       this._weather = weather;
       this._networkIcon = networkIcon;
-      
+
       this._signals = [];
 
       this._icon = new St.Icon({
+        icon_size: 16,
         y_align: Clutter.ActorAlign.CENTER,
-        style_class: "system-status-icon"
       });
+      this._icon.add_style_class_name("system-status-icon");
 
       this._label = new St.Label({
-        y_align: Clutter.ActorAlign.CENTER,
-        style_class: "system-status-label"
+        style_class: "system-status-label",
       });
-      
+      this._label.clutter_text.y_align = Clutter.ActorAlign.CENTER;
+      this._label.add_style_class_name("weather_label");
+
       let topBox = new St.BoxLayout({
         style_class: 'panel-status-menu-box'
       });
       topBox.add_child(this._icon);
       topBox.add_child(this._label);
       this.add_child(topBox);
-      
+
       this._pushSignal(
         this._weather,
         "changed",
-        this._onWeatherInfoUpdate.bind(this)
+        this._onWeatherInfoUpdate.bind(this),
       );
 
       this._pushSignal(this, "destroy", this._onDestroy.bind(this));
@@ -70,12 +113,12 @@ const WeatherOrNot_Indicator = GObject.registerClass(
         this._pushSignal(
           this._networkIcon,
           "notify::icon-name",
-          this._onNetworkIconNotifyEvents.bind(this)
+          this._onNetworkIconNotifyEvents.bind(this),
         );
         this._pushSignal(
           this._networkIcon,
           "notify::visible",
-          this._onNetworkIconNotifyEvents.bind(this)
+          this._onNetworkIconNotifyEvents.bind(this),
         );
         if (this._networkIcon.visible) {
           this._weather.update();
@@ -96,7 +139,8 @@ const WeatherOrNot_Indicator = GObject.registerClass(
 
     _onWeatherInfoUpdate(weather) {
       this._icon.icon_name = weather.info.get_symbolic_icon_name();
-      this._label.text = weather.info.get_temp_summary().replace("--", ""); // "--" is not a valid temp...
+      // "--" is not a valid temp...
+      this._label.text = weather.info.get_temp_summary().replace("--", "");
       this.visible = this._icon.icon_name && this._label.text;
     }
 
@@ -118,7 +162,7 @@ const WeatherOrNot_Indicator = GObject.registerClass(
         () => {
           this._weather.update();
           return GLib.SOURCE_CONTINUE;
-        }
+        },
       );
     }
 
@@ -136,35 +180,6 @@ const WeatherOrNot_Indicator = GObject.registerClass(
       this._weather = null;
       this._networkIcon = null;
     }
-  }
+  },
 );
-
-let _spacer = null;
-let _indicator = null;
-
-function enable() {
-  let statusArea = imports.ui.main.panel.statusArea;
-  let dateMenu = statusArea.dateMenu;
-  let weather = dateMenu._weatherItem._weatherClient;
-  let network =
-    major < 43
-      ? statusArea.aggregateMenu._network
-      : statusArea.quickSettings._network;
-  let networkIcon = network ? network._primaryIndicator : null;
-  _spacer = new WeatherOrNot_Indicator(weather, networkIcon);
-  _spacer.add_style_class_name('weatherornot-spacer');
-  _spacer.reactive = false;
-  _indicator = new WeatherOrNot_Indicator(weather, networkIcon);
-  _indicator.add_style_class_name('weatherornot');
-  _indicator.connect("button-press-event", () => GLib.spawn_command_line_async("gapplication launch org.gnome.Weather"));
-  Main.panel._addToPanelBox('Spacer', _spacer, 0, Main.panel._centerBox);
-  Main.panel._addToPanelBox('WeatherOrNot', _indicator, 999999999, Main.panel._centerBox);
-}
-
-function disable() {
-  _spacer.destroy();
-  _spacer = null;
-  _indicator.destroy();
-  _indicator = null;
-}
 
