@@ -2,7 +2,7 @@
   max-height: 16px;
 }
 
-.weatherornot-spacer * {
+.weatherornot-spacer *,
+.spacer-pill * {
   color: transparent !important;
 }
-
