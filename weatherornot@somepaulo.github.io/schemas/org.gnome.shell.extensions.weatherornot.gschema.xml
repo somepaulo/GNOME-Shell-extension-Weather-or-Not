@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <enum id="org.gnome.shell.extensions.weatherornot.position-setting">
+        <value value="0" nick="left"/>
+        <value value="1" nick="clock-left"/>
+        <value value="2" nick="clock-left-centered"/>
+        <value value="3" nick="clock-right-centered"/>
+        <value value="4" nick="clock-right"/>
+        <value value="5" nick="right"/>
+    </enum>
+    
+    <schema path="/org/gnome/shell/extensions/weatherornot/" id="org.gnome.shell.extensions.weatherornot">
+        <key name="position" enum="org.gnome.shell.extensions.weatherornot.position-setting">
+            <default>"clock-right"</default>
+            <summary>Indicator position</summary>
+            <description>Select where to display the weather indicator on the panel.</description>
+        </key>
+    </schema>
+</schemalist>
