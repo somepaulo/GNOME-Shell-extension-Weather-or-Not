@@ -4,12 +4,12 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-A simple extension for GNOME Shell 45+ (42-44 supported in separate [branch](https://github.com/somepaulo/GNOME-Shell-extension-Weather-or-Not/tree/42-44)) that adds an icon showing the current weather conditions and temperature to the right of the clock (while also keeping it centered). Clicking the icon opens GNOME Weather, which is required for the extension to operate properly (that's where it gets it's weather data from).
+A simple extension for GNOME Shell 45+ (42-44 supported in separate [branch](https://github.com/somepaulo/GNOME-Shell-extension-Weather-or-Not/tree/42-44)) that adds an icon showing the current weather conditions and temperature to the panel (position controllable on GS45+). Clicking the icon opens GNOME Weather, which is required, along with an active internet connection, for the extension to operate properly (that's where it gets it's weather data from).
 
-**NB:** GNOME Weather is required!
+> **NB:** GNOME Weather and active internet connection required!
+______
 
 ![screenshot](https://github.com/somepaulo/GNOME-Shell-extension-Weather-or-Not/assets/15643750/915dc8d5-6ceb-4337-9d58-52983bebe0f1)
-
 
 ## Installation
 [<img src="https://user-images.githubusercontent.com/15643750/212080370-77899e64-bae8-43f1-b67a-fc946785c4b3.png" height="100">](https://extensions.gnome.org/extension/5660/weather-or-not/)
