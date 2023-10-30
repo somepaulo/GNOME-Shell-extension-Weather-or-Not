@@ -30,18 +30,18 @@ export default class WeatherOrNotExtensionPreferences extends ExtensionPreferenc
         positionSetting.append('Right', _('5'));
         
         // Create a preferences row
-        this._settings = this.getSettings();
+        window._settings = this.getSettings();
         const positionRow = new Adw.ComboRow({
             title: _('Position'),
             subtitle: _('Select where to show the weather indicator on the panel'),
             model: positionSetting,
-            selected: this._settings.get_enum('position')
+            selected: window._settings.get_enum('position')
         });
         prefsGroup.add(positionRow);
         
         // Connect the preferences row to the `position` key
         positionRow.connect('notify::selected', (widget) => {
-            this._settings.set_enum('position', widget.selected);
+            window._settings.set_enum('position', widget.selected);
         });
 
     }
