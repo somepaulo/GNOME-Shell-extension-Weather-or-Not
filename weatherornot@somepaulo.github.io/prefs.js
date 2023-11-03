@@ -1,4 +1,3 @@
-import Gio from 'gi://Gio';
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 
@@ -22,12 +21,12 @@ export default class WeatherOrNotExtensionPreferences extends ExtensionPreferenc
 
         // Create a list of options for the preferences row
         let positionSetting = new Gtk.StringList();
-        positionSetting.append('Left', _('0'));
-        positionSetting.append('Clock left', _('1'));
-        positionSetting.append('Clock left centered', _('2'));
-        positionSetting.append('Clock right centered', _('3'));
-        positionSetting.append('Clock right', _('4'));
-        positionSetting.append('Right', _('5'));
+        positionSetting.append(_('Left'), '0');
+        positionSetting.append(_('Clock left'), '1');
+        positionSetting.append(_('Clock left centered'), '2');
+        positionSetting.append(_('Clock right centered'), '3');
+        positionSetting.append(_('Clock right'), '4');
+        positionSetting.append(_('Right'), '5');
         
         // Create a preferences row
         window._settings = this.getSettings();
