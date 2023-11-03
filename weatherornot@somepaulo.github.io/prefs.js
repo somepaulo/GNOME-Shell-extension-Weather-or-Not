@@ -9,7 +9,7 @@ export default class WeatherOrNotExtensionPreferences extends ExtensionPreferenc
         // Create a preferences page, with a single group
         const prefsPage = new Adw.PreferencesPage({
             title: _('General'),
-            icon_name: 'dialog-information-symbolic',
+            icon_name: 'preferences-other-symbolic',
         });
         prefsWindow.add(prefsPage);
 

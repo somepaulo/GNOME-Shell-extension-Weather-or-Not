@@ -1,0 +1,58 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-03 18:44+0000\n"
+"PO-Revision-Date: 2023-11-03 18:49+0000\n"
+"Last-Translator: Paulo Fino <finomeno@gmail.com>\n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#: prefs.js:11
+msgid "General"
+msgstr "General"
+
+#: prefs.js:17
+msgid "Appearance"
+msgstr "AparienciaApariencia"
+
+#: prefs.js:23
+msgid "Left"
+msgstr "IzquierdaIzquierda"
+
+#: prefs.js:24
+msgid "Clock left"
+msgstr "Reloj izquierda"
+
+#: prefs.js:25
+msgid "Clock left centered"
+msgstr "Reloj izquierda centrado"
+
+#: prefs.js:26
+msgid "Clock right centered"
+msgstr "Reloj derecha centrado"
+
+#: prefs.js:27
+msgid "Clock right"
+msgstr "Reloj derecha"
+
+#: prefs.js:28
+msgid "Right"
+msgstr "Derecha"
+
+#: prefs.js:33
+msgid "Position"
+msgstr "Posición"
+
+#: prefs.js:34
+msgid "Select where to show the weather indicator on the panel"
+msgstr "Seleccione dónde mostrar el indicador meteorológico en el panel"
