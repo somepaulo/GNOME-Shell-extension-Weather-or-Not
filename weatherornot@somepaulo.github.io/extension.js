@@ -25,13 +25,13 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as Weather from 'resource:///org/gnome/shell/misc/weather.js';
-import {Extension, gettext} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 let pillBox, statusArea, weather, network, networkIcon;
 let _spacer = null;
 let _indicator = null;
 
-export default class weatherOrNot extends Extension {
+export default class WeatherOrNotExtension extends Extension {
   constructor(metadata) {
     super(metadata);
     this._settingsHandlerId = null;
@@ -63,9 +63,9 @@ export default class weatherOrNot extends Extension {
   }
 
   _addIndicator() {
-    const currentIcon = statusArea['WeatherOrNot'];
+    const currentIndicator = statusArea['WeatherOrNot'];
     const currentSpacer = statusArea['Spacer'];
-    if (currentIcon) {
+    if (currentIndicator) {
       statusArea['WeatherOrNot'] = null;
     }
     if (currentSpacer) {
