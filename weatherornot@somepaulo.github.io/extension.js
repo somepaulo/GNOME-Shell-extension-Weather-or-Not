@@ -60,18 +60,18 @@ export default class weatherOrNot extends Extension {
     this._settings = this.getSettings();
     this._settingsHandlerId = this._settings.connect('changed::position', this._addIndicator.bind(this));
     this._addIndicator();
-  }  
+  }
 
   _addIndicator() {
     const currentIcon = statusArea['WeatherOrNot'];
     const currentSpacer = statusArea['Spacer'];
     if (currentIcon) {
       statusArea['WeatherOrNot'] = null;
-    }  
+    }
     if (currentSpacer) {
       statusArea['Spacer'].actor.visible = false;
       statusArea['Spacer'] = null;
-    }  
+    }
 
     this._position = this._settings.get_enum('position');
     switch (this._position) {
@@ -131,6 +131,8 @@ const WeatherIndicator = GObject.registerClass(
 
       this._signals = [];
 
+      this._weatherUpdateDebounceTimer = null;
+
       this._icon = new St.Icon({
         icon_size: 16,
         y_align: Clutter.ActorAlign.CENTER,
@@ -186,7 +188,26 @@ const WeatherIndicator = GObject.registerClass(
       });
     }
 
+    /**
+     * Debouncing Weather's "changed" events,
+     * as we can receive two different payloads at the same time.
+     * In order to avoid flashing icon/label,
+     * we want to only take the last payload into account.
+     *
+     * Also, the Weather API doesn't send any other events, unfortunately.
+     * So, we have to deal with the "changed" one.
+     * See: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/misc/weather.js
+     */
     _onWeatherInfoUpdate(weather) {
+      if (this._weatherUpdateDebounceTimer) {
+        clearTimeout(this._weatherUpdateDebounceTimer);
+      }
+
+      // 100 ms is too short, and waiting for 500 ms is not a big deal
+      this._weatherUpdateDebounceTimer = setTimeout(() => this._weatherInfoUpdate(weather), 500);
+    }
+
+    _weatherInfoUpdate(weather) {
       this._icon.icon_name = weather.info.get_symbolic_icon_name();
       // "--" is not a valid temp...
       this._label.text = weather.info.get_temp_summary().replace("--", "");
@@ -228,6 +249,7 @@ const WeatherIndicator = GObject.registerClass(
       this._signals = null;
       this._weather = null;
       this._networkIcon = null;
+      this._weatherUpdateDebounceTimer = null;
     }
   },
 );
