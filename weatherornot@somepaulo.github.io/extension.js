@@ -125,26 +125,26 @@ const WeatherIndicator = GObject.registerClass(
         y_align: Clutter.ActorAlign.CENTER,
         visible: false,
       });
-
+      
       this._weather = weather;
       this._networkIcon = networkIcon;
-
+      
       this._signals = [];
-
+      
       this._weatherUpdateDebounceTimer = null;
-
+      
       this._icon = new St.Icon({
         icon_size: 16,
         y_align: Clutter.ActorAlign.CENTER,
       });
       this._icon.add_style_class_name('system-status-icon');
-
+      
       this._label = new St.Label({
         style_class: 'system-status-label',
       });
       this._label.clutter_text.y_align = Clutter.ActorAlign.CENTER;
       this._label.add_style_class_name('weather_label');
-
+      
       let pillBox = new St.BoxLayout({
         style_class: 'panel-status-menu-box'
       });
@@ -156,29 +156,29 @@ const WeatherIndicator = GObject.registerClass(
         this._weather,
         'changed',
         this._onWeatherInfoUpdate.bind(this),
-      );
-
-      this._pushSignal(this, 'destroy', this._onDestroy.bind(this));
-
-      if (this._networkIcon) {
-        this._pushSignal(
+        );
+        
+        this._pushSignal(this, 'destroy', this._onDestroy.bind(this));
+        
+        if (this._networkIcon) {
+          this._pushSignal(
           this._networkIcon,
           'notify::icon-name',
           this._onNetworkIconNotifyEvents.bind(this),
-        );
-        this._pushSignal(
-          this._networkIcon,
-          'notify::visible',
-          this._onNetworkIconNotifyEvents.bind(this),
-        );
-        if (this._networkIcon.visible) {
-          this._weather.update();
-          this._StartLongTermUpdateTimeout();
-        }
-      } else {
-        this._weather.update();
-        this._StartLongTermUpdateTimeout();
-      }
+          );
+          this._pushSignal(
+            this._networkIcon,
+            'notify::visible',
+            this._onNetworkIconNotifyEvents.bind(this),
+            );
+            if (this._networkIcon.visible) {
+              this._weather.update();
+              this._StartLongTermUpdateTimeout();
+            }
+          } else {
+            this._weather.update();
+            this._StartLongTermUpdateTimeout();
+          }
     }
 
     _pushSignal(obj, signalName, callback) {
@@ -187,22 +187,22 @@ const WeatherIndicator = GObject.registerClass(
         signalId: obj.connect(signalName, callback),
       });
     }
-
+    
     /**
      * Debouncing Weather's "changed" events,
      * as we can receive two different payloads at the same time.
      * In order to avoid flashing icon/label,
      * we want to only take the last payload into account.
-     *
-     * Also, the Weather API doesn't send any other events, unfortunately.
-     * So, we have to deal with the "changed" one.
-     * See: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/misc/weather.js
-     */
+    *
+    * Also, the Weather API doesn't send any other events, unfortunately.
+    * So, we have to deal with the "changed" one.
+    * See: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/misc/weather.js
+    */
     _onWeatherInfoUpdate(weather) {
       if (this._weatherUpdateDebounceTimer) {
         clearTimeout(this._weatherUpdateDebounceTimer);
       }
-
+      
       // 100 ms is too short, and waiting for 500 ms is not a big deal
       this._weatherUpdateDebounceTimer = setTimeout(() => this._weatherInfoUpdate(weather), 500);
     }
@@ -213,7 +213,7 @@ const WeatherIndicator = GObject.registerClass(
       this._label.text = weather.info.get_temp_summary().replace("--", "");
       this.visible = this._icon.icon_name && this._label.text;
     }
-
+    
     _onNetworkIconNotifyEvents(networkIcon) {
       if (networkIcon.visible && !this.visible) {
         this._weather.update();
@@ -233,14 +233,14 @@ const WeatherIndicator = GObject.registerClass(
           this._weather.update();
           return GLib.SOURCE_CONTINUE;
         },
-      );
-    }
-
-    _canceLongTermUpdateTimeout() {
-      if (this._weatherUpdateTimeout) {
-        GLib.source_remove(this._weatherUpdateTimeout);
+        );
       }
-      this._weatherUpdateTimeout = null;
+      
+      _canceLongTermUpdateTimeout() {
+        if (this._weatherUpdateTimeout) {
+          GLib.source_remove(this._weatherUpdateTimeout);
+        }
+        this._weatherUpdateTimeout = null;
     }
 
     _onDestroy() {
@@ -249,6 +249,7 @@ const WeatherIndicator = GObject.registerClass(
       this._signals = null;
       this._weather = null;
       this._networkIcon = null;
+      clearTimeout(this._weatherUpdateDebounceTimer);
       this._weatherUpdateDebounceTimer = null;
     }
   },
