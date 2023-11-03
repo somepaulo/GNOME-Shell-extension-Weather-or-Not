@@ -3,7 +3,6 @@ import Gtk from 'gi://Gtk';
 
 import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-
 export default class WeatherOrNotExtensionPreferences extends ExtensionPreferences {
     fillPreferencesWindow(prefsWindow) {
     
