@@ -1,0 +1,59 @@
+# German translation for Weather or Not.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-07 00:54+0100\n"
+"PO-Revision-Date: 2023-11-07 00:56+0100\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.1\n"
+
+#: prefs.js:11
+msgid "General"
+msgstr "Allgemein"
+
+#: prefs.js:17
+msgid "Appearance"
+msgstr "Erscheinungsbild"
+
+#: prefs.js:23
+msgid "Left"
+msgstr "Links"
+
+#: prefs.js:24
+msgid "Clock left"
+msgstr "Uhr links"
+
+#: prefs.js:25
+msgid "Clock left centered"
+msgstr "Uhr links mittig"
+
+#: prefs.js:26
+msgid "Clock right centered"
+msgstr "Uhr rechts mittig"
+
+#: prefs.js:27
+msgid "Clock right"
+msgstr "Uhr rechts"
+
+#: prefs.js:28
+msgid "Right"
+msgstr "Rechts"
+
+#: prefs.js:33
+msgid "Position"
+msgstr "Position"
+
+#: prefs.js:34
+msgid "Select where to show the weather indicator on the panel"
+msgstr ""
+"Wählen Sie aus, wo der Wetterindikator auf dem Panel angezeigt werden soll"
