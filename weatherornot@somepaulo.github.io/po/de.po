@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-03 18:44+0000\n"
-"PO-Revision-Date: 2023-11-10 22:41+0000\n"
+"PO-Revision-Date: 2023-11-11 18:39+0000\n"
 "Last-Translator: Paulo Fino <finomeno@gmail.com>\n"
 "Language-Team: \n"
-"Language: pt\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,40 +19,40 @@ msgstr ""
 
 #: prefs.js:11
 msgid "General"
-msgstr "Geral"
+msgstr "Allgemeine"
 
 #: prefs.js:17
 msgid "Appearance"
-msgstr "Aparência"
+msgstr "Aussehen"
 
 #: prefs.js:23
 msgid "Left"
-msgstr "Esquerda"
+msgstr "Links"
 
 #: prefs.js:24
 msgid "Clock left"
-msgstr "Relógio esquerda"
+msgstr "Uhr links"
 
 #: prefs.js:25
 msgid "Clock left centered"
-msgstr "Relógio esquerda centrado"
+msgstr "Uhr links zentriert"
 
 #: prefs.js:26
 msgid "Clock right centered"
-msgstr "Relógio direita centrado"
+msgstr "Uhr rechts zentriert"
 
 #: prefs.js:27
 msgid "Clock right"
-msgstr "Relógio direita"
+msgstr "Uhr rechts"
 
 #: prefs.js:28
 msgid "Right"
-msgstr "Direita"
+msgstr "Rechts"
 
 #: prefs.js:33
 msgid "Position"
-msgstr "Posição"
+msgstr "Position"
 
 #: prefs.js:34
 msgid "Select where to show the weather indicator on the panel"
-msgstr "Selecione onde mostrar o indicador meteorológico no painel"
+msgstr "Wählen Sie aus, wo die Wetteranzeige im oberen Panel angezeigt werden soll"

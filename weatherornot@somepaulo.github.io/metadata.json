@@ -10,5 +10,5 @@
   "original-author": "somepaulo@duck.com",
   "gettext-domain": "weatherornot@somepaulo.github.io",
   "settings-schema": "org.gnome.shell.extensions.weatherornot",
-  "version": 10
+  "version": 11
 }

@@ -32,225 +32,225 @@ let _spacer = null;
 let _indicator = null;
 
 export default class WeatherOrNotExtension extends Extension {
-  constructor(metadata) {
-    super(metadata);
-    this._settingsHandlerId = null;
-    this._position = null;
-    this._settings = null;
-  }
-
-  enable() {
-    statusArea = Main.panel.statusArea;
-    weather = new Weather.WeatherClient();
-    network = Main.panel._network;
-    networkIcon = network ? network._primaryIndicator : null;
-
-    if (!_indicator) {
-      _indicator = new WeatherIndicator(weather, networkIcon);
-      _indicator.add_style_class_name('weatherornot');
-      _indicator.connect('button-press-event', () => GLib.spawn_command_line_async('gapplication launch org.gnome.Weather'));
+    constructor(metadata) {
+        super(metadata);
+        this._settingsHandlerId = null;
+        this._position = null;
+        this._settings = null;
     }
 
-    if (!_spacer) {
-      _spacer = new WeatherIndicator(weather, networkIcon);
-      _spacer.add_style_class_name('weatherornot-spacer');
-      _spacer.reactive = false;
+    enable() {
+        statusArea = Main.panel.statusArea;
+        weather = new Weather.WeatherClient();
+        network = Main.panel._network;
+        networkIcon = network ? network._primaryIndicator : null;
+
+        if (!_indicator) {
+            _indicator = new WeatherIndicator(weather, networkIcon);
+            _indicator.add_style_class_name('weatherornot');
+            _indicator.connect('button-press-event', () => GLib.spawn_command_line_async('gapplication launch org.gnome.Weather'));
+        }
+
+        if (!_spacer) {
+            _spacer = new WeatherIndicator(weather, networkIcon);
+            _spacer.add_style_class_name('weatherornot-spacer');
+            _spacer.reactive = false;
+        }
+
+        this._settings = this.getSettings();
+        this._settingsHandlerId = this._settings.connect('changed::position', this._addIndicator.bind(this));
+        this._addIndicator();
     }
 
-    this._settings = this.getSettings();
-    this._settingsHandlerId = this._settings.connect('changed::position', this._addIndicator.bind(this));
-    this._addIndicator();
-  }
+    _addIndicator() {
+        const currentIndicator = statusArea['WeatherOrNot'];
+        const currentSpacer = statusArea['Spacer'];
+        if (currentIndicator) {
+            statusArea['WeatherOrNot'] = null;
+        }
+        if (currentSpacer) {
+            statusArea['Spacer'].actor.visible = false;
+            statusArea['Spacer'] = null;
+        }
 
-  _addIndicator() {
-    const currentIndicator = statusArea['WeatherOrNot'];
-    const currentSpacer = statusArea['Spacer'];
-    if (currentIndicator) {
-      statusArea['WeatherOrNot'] = null;
-    }
-    if (currentSpacer) {
-      statusArea['Spacer'].actor.visible = false;
-      statusArea['Spacer'] = null;
+        this._position = this._settings.get_enum('position');
+        switch (this._position) {
+            case 0:
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 1, Main.panel._leftBox);
+                break;
+            case 1:
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 0, Main.panel._centerBox);
+                Main.panel._addToPanelBox('Spacer', _spacer, 999999999, Main.panel._centerBox);
+                statusArea['Spacer'].actor.visible = true;
+                break;
+            case 2:
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 0, Main.panel._centerBox);
+                break;
+            case 3:
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 999999999, Main.panel._centerBox);
+                break;
+            case 4:
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 999999999, Main.panel._centerBox);
+                Main.panel._addToPanelBox('Spacer', _spacer, 0, Main.panel._centerBox);
+                statusArea['Spacer'].actor.visible = true;
+                break;
+            case 5:
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 1, Main.panel._rightBox);
+        }
     }
 
-    this._position = this._settings.get_enum('position');
-    switch (this._position) {
-      case 0:
-        Main.panel._addToPanelBox('WeatherOrNot', _indicator, 1, Main.panel._leftBox);
-        break;
-      case 1:
-        Main.panel._addToPanelBox('WeatherOrNot', _indicator, 0, Main.panel._centerBox);
-        Main.panel._addToPanelBox('Spacer', _spacer, 999999999, Main.panel._centerBox);
-        statusArea['Spacer'].actor.visible = true;
-        break;
-      case 2:
-        Main.panel._addToPanelBox('WeatherOrNot', _indicator, 0, Main.panel._centerBox);
-        break;
-      case 3:
-        Main.panel._addToPanelBox('WeatherOrNot', _indicator, 999999999, Main.panel._centerBox);
-        break;
-      case 4:
-        Main.panel._addToPanelBox('WeatherOrNot', _indicator, 999999999, Main.panel._centerBox);
-        Main.panel._addToPanelBox('Spacer', _spacer, 0, Main.panel._centerBox);
-        statusArea['Spacer'].actor.visible = true;
-        break;
-      case 5:
-        Main.panel._addToPanelBox('WeatherOrNot', _indicator, 1, Main.panel._rightBox);
+    disable() {
+        this._settings.disconnect(this._settingsHandlerId);
+        this._settings = null;
+        if (_spacer) {
+            _spacer.destroy();
+            _spacer = null;
+        }
+        if (_indicator) {
+            _indicator.destroy();
+            _indicator = null;
+        }
+        pillBox = null;
+        weather = null;
     }
-  }
-
-  disable() {
-    this._settings.disconnect(this._settingsHandlerId);
-    this._settings = null;
-    if (_spacer) {
-      _spacer.destroy();
-      _spacer = null;
-    }
-    if (_indicator) {
-      _indicator.destroy();
-      _indicator = null;
-    }
-    pillBox = null;
-    weather = null;
-  }
 }
 
 const WeatherIndicator = GObject.registerClass(
-  {
-    GTypeName: "WeatherIndicator",
-  },
-  class WeatherIndicator extends PanelMenu.Button {
-    _init(weather, networkIcon) {
-      super._init({
-        y_align: Clutter.ActorAlign.CENTER,
-        visible: false,
-      });
+    {
+        GTypeName: "WeatherIndicator",
+    },
+    class WeatherIndicator extends PanelMenu.Button {
+        _init(weather, networkIcon) {
+            super._init({
+                y_align: Clutter.ActorAlign.CENTER,
+                visible: false,
+            });
       
-      this._weather = weather;
-      this._networkIcon = networkIcon;
+            this._weather = weather;
+            this._networkIcon = networkIcon;
       
-      this._signals = [];
+            this._signals = [];
       
-      this._weatherUpdateDebounceTimer = null;
+            this._weatherUpdateDebounceTimer = null;
       
-      this._icon = new St.Icon({
-        icon_size: 16,
-        y_align: Clutter.ActorAlign.CENTER,
-      });
-      this._icon.add_style_class_name('system-status-icon');
+            this._icon = new St.Icon({
+                icon_size: 16,
+                y_align: Clutter.ActorAlign.CENTER,
+                style_class: 'system-status-icon',
+            });
       
-      this._label = new St.Label({
-        style_class: 'system-status-label',
-      });
-      this._label.clutter_text.y_align = Clutter.ActorAlign.CENTER;
-      this._label.add_style_class_name('weather_label');
+            this._label = new St.Label({
+                y_align: Clutter.ActorAlign.CENTER,
+                style_class: 'system-status-label',
+            });
       
-      let pillBox = new St.BoxLayout({
-        style_class: 'panel-status-menu-box'
-      });
-      pillBox.add_child(this._icon);
-      pillBox.add_child(this._label);
-      this.add_child(pillBox);
+            let pillBox = new St.BoxLayout({
+                y_align: Clutter.ActorAlign.CENTER,
+                style_class: 'panel-status-menu-box'
+            });
+            pillBox.add_child(this._icon);
+            pillBox.add_child(this._label);
+            this.add_child(pillBox);
 
-      this._pushSignal(
-        this._weather,
-        'changed',
-        this._onWeatherInfoUpdate.bind(this),
-        );
-        
-        this._pushSignal(this, 'destroy', this._onDestroy.bind(this));
-        
-        if (this._networkIcon) {
-          this._pushSignal(
-          this._networkIcon,
-          'notify::icon-name',
-          this._onNetworkIconNotifyEvents.bind(this),
-          );
-          this._pushSignal(
-            this._networkIcon,
-            'notify::visible',
-            this._onNetworkIconNotifyEvents.bind(this),
+            this._pushSignal(
+                this._weather,
+                'changed',
+                this._onWeatherInfoUpdate.bind(this),
             );
-            if (this._networkIcon.visible) {
-              this._weather.update();
-              this._StartLongTermUpdateTimeout();
+        
+            this._pushSignal(this, 'destroy', this._onDestroy.bind(this));
+        
+            if (this._networkIcon) {
+                this._pushSignal(
+                    this._networkIcon,
+                    'notify::icon-name',
+                    this._onNetworkIconNotifyEvents.bind(this),
+                );
+                this._pushSignal(
+                    this._networkIcon,
+                    'notify::visible',
+                    this._onNetworkIconNotifyEvents.bind(this),
+                );
+                if (this._networkIcon.visible) {
+                    this._weather.update();
+                    this._StartLongTermUpdateTimeout();
+                }
+            } else {
+                this._weather.update();
+                this._StartLongTermUpdateTimeout();
             }
-          } else {
-            this._weather.update();
-            this._StartLongTermUpdateTimeout();
-          }
-    }
-
-    _pushSignal(obj, signalName, callback) {
-      this._signals.push({
-        obj: obj,
-        signalId: obj.connect(signalName, callback),
-      });
-    }
-    
-    /**
-     * Debouncing Weather's "changed" events,
-     * as we can receive two different payloads at the same time.
-     * In order to avoid flashing icon/label,
-     * we want to only take the last payload into account.
-    *
-    * Also, the Weather API doesn't send any other events, unfortunately.
-    * So, we have to deal with the "changed" one.
-    * See: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/misc/weather.js
-    */
-    _onWeatherInfoUpdate(weather) {
-      if (this._weatherUpdateDebounceTimer) {
-        clearTimeout(this._weatherUpdateDebounceTimer);
-      }
-      
-      // 100 ms is too short, and waiting for 500 ms is not a big deal
-      this._weatherUpdateDebounceTimer = setTimeout(() => this._weatherInfoUpdate(weather), 500);
-    }
-
-    _weatherInfoUpdate(weather) {
-      this._icon.icon_name = weather.info.get_symbolic_icon_name();
-      // "--" is not a valid temp...
-      this._label.text = weather.info.get_temp_summary().replace("--", "");
-      this.visible = this._icon.icon_name && this._label.text;
-    }
-    
-    _onNetworkIconNotifyEvents(networkIcon) {
-      if (networkIcon.visible && !this.visible) {
-        this._weather.update();
-        this._StartLongTermUpdateTimeout();
-      } else if (!networkIcon.visible) {
-        this._canceLongTermUpdateTimeout();
-        this.visible = false;
-      }
-    }
-
-    _StartLongTermUpdateTimeout() {
-      this._canceLongTermUpdateTimeout();
-      this._weatherUpdateTimeout = GLib.timeout_add_seconds(
-        GLib.PRIORITY_LOW,
-        600,
-        () => {
-          this._weather.update();
-          return GLib.SOURCE_CONTINUE;
-        },
-        );
-      }
-      
-      _canceLongTermUpdateTimeout() {
-        if (this._weatherUpdateTimeout) {
-          GLib.source_remove(this._weatherUpdateTimeout);
         }
-        this._weatherUpdateTimeout = null;
-    }
 
-    _onDestroy() {
-      this._canceLongTermUpdateTimeout();
-      this._signals.forEach((signal) => signal.obj.disconnect(signal.signalId));
-      this._signals = null;
-      this._weather = null;
-      this._networkIcon = null;
-      clearTimeout(this._weatherUpdateDebounceTimer);
-      this._weatherUpdateDebounceTimer = null;
-    }
-  },
+        _pushSignal(obj, signalName, callback) {
+            this._signals.push({
+                obj: obj,
+                signalId: obj.connect(signalName, callback),
+            });
+        }
+    
+        /**
+        * Debouncing Weather's "changed" events,
+        * as we can receive two different payloads at the same time.
+        * In order to avoid flashing icon/label,
+        * we want to only take the last payload into account.
+        *
+        * Also, the Weather API doesn't send any other events, unfortunately.
+        * So, we have to deal with the "changed" one.
+        * See: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/misc/weather.js
+        */
+        _onWeatherInfoUpdate(weather) {
+            if (this._weatherUpdateDebounceTimer) {
+                clearTimeout(this._weatherUpdateDebounceTimer);
+            }
+      
+            // 100 ms is too short, and waiting for 500 ms is not a big deal
+            this._weatherUpdateDebounceTimer = setTimeout(() => this._weatherInfoUpdate(weather), 500);
+        }
+
+        _weatherInfoUpdate(weather) {
+            this._icon.icon_name = weather.info.get_symbolic_icon_name();
+            // "--" is not a valid temp...
+            this._label.text = weather.info.get_temp_summary().replace("--", "");
+            this.visible = this._icon.icon_name && this._label.text;
+        }
+    
+        _onNetworkIconNotifyEvents(networkIcon) {
+            if (networkIcon.visible && !this.visible) {
+                this._weather.update();
+                this._StartLongTermUpdateTimeout();
+            } else if (!networkIcon.visible) {
+                this._canceLongTermUpdateTimeout();
+                this.visible = false;
+            }
+        }
+
+        _StartLongTermUpdateTimeout() {
+            this._canceLongTermUpdateTimeout();
+            this._weatherUpdateTimeout = GLib.timeout_add_seconds(
+                GLib.PRIORITY_LOW,
+                600,
+                () => {
+                    this._weather.update();
+                    return GLib.SOURCE_CONTINUE;
+                },
+            );
+        }
+      
+        _canceLongTermUpdateTimeout() {
+            if (this._weatherUpdateTimeout) {
+                GLib.source_remove(this._weatherUpdateTimeout);
+            }
+            this._weatherUpdateTimeout = null;
+        }
+
+        _onDestroy() {
+            this._canceLongTermUpdateTimeout();
+            this._signals.forEach((signal) => signal.obj.disconnect(signal.signalId));
+            this._signals = null;
+            this._weather = null;
+            this._networkIcon = null;
+            clearTimeout(this._weatherUpdateDebounceTimer);
+            this._weatherUpdateDebounceTimer = null;
+        }
+    },
 );
