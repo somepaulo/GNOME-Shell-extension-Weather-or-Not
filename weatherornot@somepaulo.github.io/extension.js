@@ -76,21 +76,21 @@ export default class WeatherOrNotExtension extends Extension {
         this._position = this._settings.get_enum('position');
         switch (this._position) {
             case 0:
-                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 1, Main.panel._leftBox);
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, -1, Main.panel._leftBox);
                 break;
             case 1:
                 Main.panel._addToPanelBox('WeatherOrNot', _indicator, 0, Main.panel._centerBox);
-                Main.panel._addToPanelBox('Spacer', _spacer, 999999999, Main.panel._centerBox);
+                Main.panel._addToPanelBox('Spacer', _spacer, -1, Main.panel._centerBox);
                 statusArea['Spacer'].actor.visible = true;
                 break;
             case 2:
                 Main.panel._addToPanelBox('WeatherOrNot', _indicator, 0, Main.panel._centerBox);
                 break;
             case 3:
-                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 999999999, Main.panel._centerBox);
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, -1, Main.panel._centerBox);
                 break;
             case 4:
-                Main.panel._addToPanelBox('WeatherOrNot', _indicator, 999999999, Main.panel._centerBox);
+                Main.panel._addToPanelBox('WeatherOrNot', _indicator, -1, Main.panel._centerBox);
                 Main.panel._addToPanelBox('Spacer', _spacer, 0, Main.panel._centerBox);
                 statusArea['Spacer'].actor.visible = true;
                 break;

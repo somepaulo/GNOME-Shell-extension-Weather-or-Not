@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-03 18:44+0000\n"
-"PO-Revision-Date: 2023-11-11 18:39+0000\n"
+"PO-Revision-Date: 2023-11-17 15:13+0000\n"
 "Last-Translator: Paulo Fino <finomeno@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: prefs.js:11
 msgid "General"
-msgstr "Allgemeine"
+msgstr "Allgemein"
 
 #: prefs.js:17
 msgid "Appearance"
-msgstr "Aussehen"
+msgstr "Erscheinungsbild"
 
 #: prefs.js:23
 msgid "Left"
@@ -35,11 +35,11 @@ msgstr "Uhr links"
 
 #: prefs.js:25
 msgid "Clock left centered"
-msgstr "Uhr links zentriert"
+msgstr "Uhr links mittig"
 
 #: prefs.js:26
 msgid "Clock right centered"
-msgstr "Uhr rechts zentriert"
+msgstr "Uhr rechts mittig"
 
 #: prefs.js:27
 msgid "Clock right"
@@ -55,4 +55,4 @@ msgstr "Position"
 
 #: prefs.js:34
 msgid "Select where to show the weather indicator on the panel"
-msgstr "Wählen Sie aus, wo die Wetteranzeige im oberen Panel angezeigt werden soll"
+msgstr "Wählen Sie aus, wo die Wetterindikator auf dem Panel angezeigt werden soll"
