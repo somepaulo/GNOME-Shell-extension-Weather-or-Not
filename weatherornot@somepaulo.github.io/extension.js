@@ -203,8 +203,8 @@ const WeatherIndicator = GObject.registerClass(
                 clearTimeout(this._weatherUpdateDebounceTimer);
             }
       
-            // 100 ms is too short, and waiting for 500 ms is not a big deal
-            this._weatherUpdateDebounceTimer = setTimeout(() => this._weatherInfoUpdate(weather), 500);
+            // 100 ms is too short, and waiting for 10 seconds is not a big deal
+            this._weatherUpdateDebounceTimer = setTimeout(() => this._weatherInfoUpdate(weather), 10000);
         }
 
         _weatherInfoUpdate(weather) {
