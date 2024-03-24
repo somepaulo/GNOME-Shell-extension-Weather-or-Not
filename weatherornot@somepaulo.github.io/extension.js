@@ -131,8 +131,6 @@ const WeatherIndicator = GObject.registerClass(
       
             this._signals = [];
       
-            this._weatherUpdateDebounceTimer = null;
-      
             this._icon = new St.Icon({
                 icon_size: 16,
                 y_align: Clutter.ActorAlign.CENTER,
@@ -188,30 +186,13 @@ const WeatherIndicator = GObject.registerClass(
             });
         }
     
-        /**
-        * Debouncing Weather's "changed" events,
-        * as we can receive two different payloads at the same time.
-        * In order to avoid flashing icon/label,
-        * we want to only take the last payload into account.
-        *
-        * Also, the Weather API doesn't send any other events, unfortunately.
-        * So, we have to deal with the "changed" one.
-        * See: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/misc/weather.js
-        */
         _onWeatherInfoUpdate(weather) {
-            if (this._weatherUpdateDebounceTimer) {
-                clearTimeout(this._weatherUpdateDebounceTimer);
+            if (!weather.loading) {
+                this._icon.icon_name = weather.info.get_symbolic_icon_name();
+                // "--" is not a valid temp...
+                this._label.text = weather.info.get_temp_summary().replace("--", "");
+                this.visible = this._icon.icon_name && this._label.text;
             }
-      
-            // 100 ms is too short, and waiting for 10 seconds is not a big deal
-            this._weatherUpdateDebounceTimer = setTimeout(() => this._weatherInfoUpdate(weather), 10000);
-        }
-
-        _weatherInfoUpdate(weather) {
-            this._icon.icon_name = weather.info.get_symbolic_icon_name();
-            // "--" is not a valid temp...
-            this._label.text = weather.info.get_temp_summary().replace("--", "");
-            this.visible = this._icon.icon_name && this._label.text;
         }
     
         _onNetworkIconNotifyEvents(networkIcon) {
@@ -249,8 +230,6 @@ const WeatherIndicator = GObject.registerClass(
             this._signals = null;
             this._weather = null;
             this._networkIcon = null;
-            clearTimeout(this._weatherUpdateDebounceTimer);
-            this._weatherUpdateDebounceTimer = null;
         }
     },
 );
