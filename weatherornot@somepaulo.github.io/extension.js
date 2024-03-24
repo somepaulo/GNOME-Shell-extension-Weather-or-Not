@@ -134,7 +134,6 @@ const WeatherIndicator = GObject.registerClass(
             this._weatherUpdateDebounceTimer = null;
       
             this._icon = new St.Icon({
-                icon_size: 16,
                 y_align: Clutter.ActorAlign.CENTER,
                 style_class: 'system-status-icon',
             });
