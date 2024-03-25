@@ -48,7 +48,7 @@ export default class WeatherOrNotExtension extends Extension {
         if (!_indicator) {
             _indicator = new WeatherIndicator(weather, networkIcon);
             _indicator.add_style_class_name('weatherornot');
-            _indicator.connect('button-press-event', () => GLib.spawn_command_line_async('gapplication launch org.gnome.Weather'));
+            _indicator.connect('button-press-event', () => weather.activateApp());
         }
 
         if (!_spacer) {
