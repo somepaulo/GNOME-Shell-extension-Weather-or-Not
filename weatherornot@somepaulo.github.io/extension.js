@@ -125,22 +125,22 @@ const WeatherIndicator = GObject.registerClass(
                 y_align: Clutter.ActorAlign.CENTER,
                 visible: false,
             });
-      
+
             this._weather = weather;
             this._networkIcon = networkIcon;
-      
+
             this._signals = [];
-      
+
             this._icon = new St.Icon({
                 y_align: Clutter.ActorAlign.CENTER,
                 style_class: 'system-status-icon',
             });
-      
+
             this._label = new St.Label({
                 y_align: Clutter.ActorAlign.CENTER,
                 style_class: 'system-status-label',
             });
-      
+
             let pillBox = new St.BoxLayout({
                 y_align: Clutter.ActorAlign.CENTER,
                 style_class: 'panel-status-menu-box'
@@ -154,9 +154,9 @@ const WeatherIndicator = GObject.registerClass(
                 'changed',
                 this._onWeatherInfoUpdate.bind(this),
             );
-        
+
             this._pushSignal(this, 'destroy', this._onDestroy.bind(this));
-        
+
             if (this._networkIcon) {
                 this._pushSignal(
                     this._networkIcon,
@@ -184,16 +184,16 @@ const WeatherIndicator = GObject.registerClass(
                 signalId: obj.connect(signalName, callback),
             });
         }
-    
+
         _onWeatherInfoUpdate(weather) {
             if (!weather.loading) {
                 this._icon.icon_name = weather.info.get_symbolic_icon_name();
                 // "--" is not a valid temp...
-                this._label.text = weather.info.get_temp_summary().replace("--", "");
+                this._label.text = weather.info.get_temp_summary().replace("--", "").replace("-", "−");
                 this.visible = this._icon.icon_name && this._label.text;
             }
         }
-    
+
         _onNetworkIconNotifyEvents(networkIcon) {
             if (networkIcon.visible && !this.visible) {
                 this._weather.update();
@@ -215,7 +215,7 @@ const WeatherIndicator = GObject.registerClass(
                 },
             );
         }
-      
+
         _canceLongTermUpdateTimeout() {
             if (this._weatherUpdateTimeout) {
                 GLib.source_remove(this._weatherUpdateTimeout);

@@ -5,7 +5,6 @@ import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Ex
 
 export default class WeatherOrNotExtensionPreferences extends ExtensionPreferences {
     fillPreferencesWindow(prefsWindow) {
-    
         // Create a preferences page, with a single group
         const prefsPage = new Adw.PreferencesPage({
             title: _('General'),
@@ -26,7 +25,7 @@ export default class WeatherOrNotExtensionPreferences extends ExtensionPreferenc
         positionSetting.append(_('Clock right centered'), '3');
         positionSetting.append(_('Clock right'), '4');
         positionSetting.append(_('Right'), '5');
-        
+
         // Create a preferences row
         window._settings = this.getSettings();
         const positionRow = new Adw.ComboRow({
@@ -36,11 +35,10 @@ export default class WeatherOrNotExtensionPreferences extends ExtensionPreferenc
             selected: window._settings.get_enum('position')
         });
         prefsGroup.add(positionRow);
-        
+
         // Connect the preferences row to the `position` key
         positionRow.connect('notify::selected', (widget) => {
             window._settings.set_enum('position', widget.selected);
         });
-
     }
 }

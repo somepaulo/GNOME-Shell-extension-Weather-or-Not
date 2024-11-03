@@ -6,7 +6,7 @@
 
 A simple extension for GNOME Shell 45+ (versions 42 to 44 supported in separate [branch](https://github.com/somepaulo/GNOME-Shell-extension-Weather-or-Not/tree/42-44)) that adds an icon showing the current weather conditions and temperature to the panel. The indicator position can be adjusted in preferences (on GNOME 45+ only). Clicking the icon opens GNOME Weather.
 
-> **NB:** You need GNOME Weather installed for this extension to function properly and an active internet connection to retrieve and display weather information.  
+> **NB:** You need GNOME Weather installed for this extension to function properly and an active internet connection to retrieve and display weather information.
 > The temperature unit (Celsius or Fahrenheit) is obtained directly from the system's regional preferences.
 ______
 
