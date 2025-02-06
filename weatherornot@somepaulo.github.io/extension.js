@@ -69,7 +69,7 @@ export default class WeatherOrNotExtension extends Extension {
             statusArea['WeatherOrNot'] = null;
         }
         if (currentSpacer) {
-            statusArea['Spacer'].actor.visible = false;
+            statusArea['Spacer'].visible = false;
             statusArea['Spacer'] = null;
         }
 
@@ -81,7 +81,7 @@ export default class WeatherOrNotExtension extends Extension {
             case 1:
                 Main.panel._addToPanelBox('WeatherOrNot', _indicator, 0, Main.panel._centerBox);
                 Main.panel._addToPanelBox('Spacer', _spacer, -1, Main.panel._centerBox);
-                statusArea['Spacer'].actor.visible = true;
+                statusArea['Spacer'].visible = true;
                 break;
             case 2:
                 Main.panel._addToPanelBox('WeatherOrNot', _indicator, 0, Main.panel._centerBox);
@@ -92,7 +92,7 @@ export default class WeatherOrNotExtension extends Extension {
             case 4:
                 Main.panel._addToPanelBox('WeatherOrNot', _indicator, -1, Main.panel._centerBox);
                 Main.panel._addToPanelBox('Spacer', _spacer, 0, Main.panel._centerBox);
-                statusArea['Spacer'].actor.visible = true;
+                statusArea['Spacer'].visible = true;
                 break;
             case 5:
                 Main.panel._addToPanelBox('WeatherOrNot', _indicator, 1, Main.panel._rightBox);
