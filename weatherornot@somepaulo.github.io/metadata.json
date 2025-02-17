@@ -6,12 +6,13 @@
   "shell-version": [
     "45",
     "46",
-    "47"
+    "47",
+    "48"
   ],
   "url": "https://github.com/somepaulo/gnome-shell-extension-weather-or-not",
   "original-author": "somepaulo@duck.com",
   "gettext-domain": "weatherornot@somepaulo.github.io",
   "settings-schema": "org.gnome.shell.extensions.weatherornot",
-  "version": 17,
-  "version-name": "47.2"
+  "version": 18,
+  "version-name": "48"
 }
