@@ -1,7 +1,7 @@
-<img align="left" src="https://gitlab.gnome.org/GNOME/gnome-weather/-/raw/main/data/icons/org.gnome.Weather.svg">
+<img src="https://gitlab.gnome.org/GNOME/gnome-weather/-/raw/main/data/icons/org.gnome.Weather.svg">
 
 # GNOME Shell Extension - OpenWeather
-## Fork of [Weather or Not](https://github.com/somepaulo/GNOME-Shell-extension-Weather-or-Not) that uses Open-meteo API
+### Fork of the [Weather or Not](https://github.com/somepaulo/GNOME-Shell-extension-Weather-or-Not) extension that uses Open-meteo API
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
