@@ -18,16 +18,21 @@ jobs:
       - name: Fetch tags
         run: git fetch --tags
 
+      - name: Set folder name env
+        run: echo "FOLDER_NAME=openweather@deezhizyu.github.io" >> $GITHUB_ENV
+
       - name: Compile schemas
-        run: /usr/bin/glib-compile-schemas --strict schemas/
+        working-directory: ${{ env.FOLDER_NAME }}
+        run: /usr/bin/glib-compile-schemas --strict ./schemas/
 
       - name: Install msgfmt command
         run: sudo apt-get install gettext
 
       - name: Compile message catalogs
+        working-directory: ${{ env.FOLDER_NAME }}
         run: |
-          for i in ./locale/*
-              do /usr/bin/msgfmt $i/LC_MESSAGES/openweather.po -o $i/LC_MESSAGES/openweather.mo
+          for i in ./locale/*/LC_MESSAGES
+              do /usr/bin/msgfmt $i/openweather.po -o $i/openweather.mo
           done
 
       # at some point we either need to upload assets, or update arch batch script with above compile cmds
@@ -35,9 +40,11 @@ jobs:
       #        run: git commit && git push
 
       - name: Build project # This would actually build your project, using zip for an example artifact
-        run: zip openweather.zip -r * -x "README.md" -x "locale/*.po" -x "locale/openweather.pot"
+        working-directory: ${{ env.FOLDER_NAME }}
+        run: zip openweather.zip -r * -x "README.md" -x "./locale/*.po" -x "./locale/openweather.pot"
 
       - name: Grab version from meta data
+        working-directory: ${{ env.FOLDER_NAME }}
         run: echo "METATAG=$(jq .version metadata.json)" >> $GITHUB_ENV
 
       - name: Get next available tag
@@ -78,6 +85,6 @@ jobs:
           # which include a `upload_url`. See this blog post for more info:
           # https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./openweather.zip
+          asset_path: ${{ env.FOLDER_NAME }}/openweather.zip
           asset_name: openweather.zip
           asset_content_type: application/zip
