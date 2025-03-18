@@ -22,3 +22,8 @@ Alternatively, use the [Extension Manager](https://github.com/mjakeman/extension
 3. Copy the `openweather@deezhizyu.github.io` folder to `~/.local/share/gnome-shell/extensions/`
 4. Log out and log back in (on Wayland) or use `Alt+F2`,`r`,`Enter` (on X11)
 5. Enable the extension in either `Extensions`, `Extension Manager` or [GNOME Shell Extensions](https://extensions.gnome.org/local/)
+
+#### Credits
+- [Weather or Not](https://github.com/somepaulo/GNOME-Shell-extension-Weather-or-Not)
+- [Open-meteo API](https://open-meteo.com/)
+- Gnome extension build workflow from [Vitals](https://github.com/corecoding/Vitals)
