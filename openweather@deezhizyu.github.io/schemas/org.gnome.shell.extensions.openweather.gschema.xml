@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schemalist>
+    <enum id="org.gnome.shell.extensions.openweather.position-setting">
+        <value value="0" nick="left" />
+        <value value="1" nick="clock-left" />
+        <value value="2" nick="clock-left-centered" />
+        <value value="3" nick="clock-right-centered" />
+        <value value="4" nick="clock-right" />
+        <value value="5" nick="right" />
+    </enum>
+
+    <enum id="org.gnome.shell.extensions.openweather.unit-setting">
+        <value value="0" nick="celsius" />
+        <value value="1" nick="fahrenheit" />
+    </enum>
+
+    <schema
+        path="/org/gnome/shell/extensions/openweather/"
+        id="org.gnome.shell.extensions.openweather"
+    >
+        <key
+            name="position"
+            enum="org.gnome.shell.extensions.openweather.position-setting"
+        >
+            <default>"clock-right"</default>
+            <summary>Indicator position</summary>
+            <description
+            >Select where to display the weather indicator on the panel.</description>
+        </key>
+
+        <key
+            name="unit"
+            enum="org.gnome.shell.extensions.openweather.unit-setting"
+        >
+            <default>"celsius"</default>
+            <summary>Temperature unit</summary>
+            <description>Select the temperature unit to display.</description>
+        </key>
+
+        <key name="latitude" type="d">
+            <default>180.0</default>
+            <summary>Latitude</summary>
+            <description
+            >The latitude of the location (-90.0 to 90.0)</description>
+        </key>
+
+        <key name="longitude" type="d">
+            <default>180.0</default>
+            <summary>Longitude</summary>
+            <description
+            >The longitude of the location (-180.0 to 180.0)</description>
+        </key>
+    </schema>
+</schemalist>
