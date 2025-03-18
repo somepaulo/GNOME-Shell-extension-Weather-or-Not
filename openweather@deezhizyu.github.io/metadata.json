@@ -8,6 +8,6 @@
   "original-author": "deezhizyu@github.com",
   "gettext-domain": "openweather@deezhizyu.github.io",
   "settings-schema": "org.gnome.shell.extensions.openweather",
-  "version": 18,
+  "version": 10,
   "version-name": "48"
 }
