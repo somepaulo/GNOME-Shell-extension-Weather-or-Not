@@ -4,6 +4,11 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+> [!WARNING]
+> The extension is now being developed on GNOME's [GitLab instance](https://gitlab.gnome.org/somepaulo/weather-or-not).
+> This GitHub repo is now an archive for posteriority.
+> Please submit new issues and track previous ones in the new repo.
+
 A simple extension for GNOME Shell 45+ (versions 42 to 44 supported in separate [branch](https://github.com/somepaulo/GNOME-Shell-extension-Weather-or-Not/tree/42-44)) that adds an icon showing the current weather conditions and temperature to the panel. The indicator position can be adjusted in preferences (on GNOME 45+ only). Clicking the icon opens GNOME Weather.
 
 > [!IMPORTANT]
